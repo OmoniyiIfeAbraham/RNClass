@@ -4,21 +4,23 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Login from "./Screens/Login";
 import Register from "./Screens/Register";
+import Dashboard from "./Screens/Dashboard";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     // <SafeAreaProvider style={{ flex: 1, backgroundColor: "white" }}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Login"
-          screenOptions={{ headerShown: false, animation: "slide_from_left" }}
-        >
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{ headerShown: false, animation: "slide_from_left" }}
+      >
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+      </Stack.Navigator>
+    </NavigationContainer>
     // </SafeAreaProvider>
   );
 }

@@ -5,6 +5,7 @@ import {
   Keyboard,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,6 +17,7 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Register = ({ navigation }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -57,14 +59,45 @@ const Register = ({ navigation }) => {
 
   // login btn
   const registerBtn = async () => {
-    setIsLoading(true);
-    console.log("Email: " + email);
-    console.log("Password: " + password);
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      email === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
+      Alert.alert("ERROR", "Fill All Fields!!!");
+    } else if (firstName.length < 3 || lastName.length < 3) {
+      Alert.alert(
+        "ERROR",
+        "Firstname or Lastname must be more than three(3) characters long!!!"
+      );
+    } else if (password.length < 8) {
+      Alert.alert(
+        "ERROR",
+        "Password must be at least eight(8) characters long!!!"
+      );
+    } else if (password !== confirmPassword) {
+      Alert.alert("ERROR", "Password and Confirm Password did not match!!!");
+    } else {
+      setIsLoading(true);
 
-    // Introduce a delay of 3 seconds before setting setIsLoading to false
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+      // saving necessary info
+      const saveData = async () => {
+        await AsyncStorage.setItem("fName", firstName);
+        await AsyncStorage.setItem("lName", lastName);
+        await AsyncStorage.setItem("email", email);
+        await AsyncStorage.setItem("password", password);
+      };
+      saveData();
+
+      // Introduce a delay of 3 seconds before setting setIsLoading to false
+      setTimeout(() => {
+        setIsLoading(false);
+        navigation.navigate("Dashboard");
+        Alert.alert("SUCCESS", "Registeration Succesful!!!");
+      }, 2000);
+    }
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>

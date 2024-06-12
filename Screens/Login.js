@@ -47,7 +47,8 @@ const Login = ({ navigation }) => {
     // Introduce a delay of 3 seconds before setting setIsLoading to false
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+      navigation.navigate("Dashboard");
+    }, 2000);
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
