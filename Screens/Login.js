@@ -5,8 +5,9 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   FontAwesome,
@@ -17,11 +18,14 @@ import {
 import GeneralStyles from "../Styles/GeneralStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/Loader";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Login = ({ navigation }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [savedEmail, setSavedEmail] = useState("");
+  const [savedPassword, setSavedPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePasswordVisbility = () => {
@@ -38,17 +42,57 @@ const Login = ({ navigation }) => {
     setPassword(text);
   };
 
+  async function getItem(item1Key, item2Key) {
+    try {
+      const [item1Value, item2Value] = await Promise.all([
+        AsyncStorage.getItem(item1Key),
+        AsyncStorage.getItem(item2Key),
+      ]);
+
+      if (item1Value !== null && item2Value !== null) {
+        console.log("Item 1:", item1Value);
+        console.log("Item 2:", item2Value);
+        return { item1: item1Value, item2: item2Value };
+      } else {
+        console.log("One or both items not found");
+        setSavedEmail("");
+        setSavedPassword("");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error retrieving items:", error);
+      return null;
+    }
+  }
+
+  useFocusEffect(() => {
+    async function fetchData() {
+      const items = await getItem("email", "password");
+      if (items) {
+        setSavedEmail(items.item1);
+        setSavedPassword(items.item2);
+      }
+    }
+    fetchData();
+  });
+
   // login btn
   const loginBtn = async () => {
-    setIsLoading(true);
-    console.log("Email: " + email);
-    console.log("Password: " + password);
+    if (email === "" || password === "") {
+      Alert.alert("ERROR", "Fill All Fields!!!");
+    } else if (email !== savedEmail || password !== savedPassword) {
+      Alert.alert("ERROR", "Email or Password Incorrect!!!");
+    } else {
+      await AsyncStorage.setItem("token", "loggedIn");
+      setIsLoading(true);
 
-    // Introduce a delay of 3 seconds before setting setIsLoading to false
-    setTimeout(() => {
-      setIsLoading(false);
-      navigation.navigate("Dashboard");
-    }, 2000);
+      // Introduce a delay of 3 seconds before setting setIsLoading to false
+      setTimeout(() => {
+        setIsLoading(false);
+        navigation.navigate("Dashboard");
+        Alert.alert("SUCCESS", "Login Succesful!!!");
+      }, 2000);
+    }
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
