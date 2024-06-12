@@ -94,7 +94,7 @@ const Register = ({ navigation }) => {
       // Introduce a delay of 3 seconds before setting setIsLoading to false
       setTimeout(() => {
         setIsLoading(false);
-        navigation.navigate("Dashboard");
+        navigation.navigate("Login");
         Alert.alert("SUCCESS", "Registeration Succesful!!!");
       }, 2000);
     }
