@@ -7,8 +7,14 @@ import Login from "./Screens/Login";
 import Register from "./Screens/Register";
 import Dashboard from "./Screens/Dashboard";
 import { useState, useEffect } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Screen1 from "./Screens/Screen1";
+import Screen2 from "./Screens/Screen2";
+import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -45,15 +51,100 @@ export default function App() {
   return (
     <SafeAreaProvider style={{ flex: 1, backgroundColor: "white" }}>
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={token ? "Dashboard" : "Login"}
-          screenOptions={{ headerShown: false, animation: "slide_from_left" }}
+        <Tab.Navigator
+          initialRouteName={"Dashboard"}
+          screenOptions={{
+            headerShown: false,
+            tabBarLabelStyle: {
+              fontSize: 12,
+              marginBottom: 5,
+            },
+            tabBarStyle: {
+              backgroundColor: "#f8f8f8",
+              alignItems: "center",
+              height: 68,
+            },
+            tabBarActiveTintColor: "#213481",
+            tabBarHideOnKeyboard: true,
+            tabBarInactiveTintColor: "#000000",
+          }}
         >
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-        </Stack.Navigator>
+          <Tab.Screen
+            name="Advertise"
+            component={Screen1}
+            options={{
+              title: "Advertise",
+              tabBarIcon: ({ focused }) => (
+                <View style={focused ? styles.activeTab : styles.inactiveTab}>
+                  <Ionicons
+                    name="megaphone-outline"
+                    size={focused ? 30 : 23}
+                    color={focused ? "#213481" : "#000000"}
+                  />
+                </View>
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Earn"
+            component={Screen2}
+            options={{
+              title: "Earn",
+              tabBarIcon: ({ focused }) => (
+                <View style={focused ? styles.activeTab : styles.inactiveTab}>
+                  <Feather
+                    name="dollar-sign"
+                    size={focused ? 30 : 23}
+                    color={focused ? "#213481" : "#000000"}
+                  />
+                </View>
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Dashboard"
+            component={Dashboard}
+            options={{
+              title: "Dashboard",
+              tabBarIcon: ({ focused }) => (
+                <View style={focused ? styles.activeTab : styles.inactiveTab}>
+                  <FontAwesome6
+                    name="house"
+                    size={focused ? 30 : 23}
+                    color={focused ? "#213481" : "#000000"}
+                  />
+                </View>
+              ),
+              tabBarBadge: 3,
+            }}
+          />
+        </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
+    // <SafeAreaProvider style={{ flex: 1, backgroundColor: "white" }}>
+    //   <NavigationContainer>
+    //     <Stack.Navigator
+    //       initialRouteName={token ? "Dashboard" : "Login"}
+    //       screenOptions={{ headerShown: false, animation: "slide_from_left" }}
+    //     >
+    //       <Stack.Screen name="Login" component={Login} />
+    //       <Stack.Screen name="Register" component={Register} />
+    //       <Stack.Screen name="Dashboard" component={Dashboard} />
+    //     </Stack.Navigator>
+    //   </NavigationContainer>
+    // </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  activeTab: {
+    borderTopWidth: 2,
+    borderTopColor: "#213481",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+  },
+  inactiveTab: {
+    borderTopWidth: 0,
+  },
+});
