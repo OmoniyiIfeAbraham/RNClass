@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Login from "./Screens/Login";
 import Register from "./Screens/Register";
@@ -12,9 +12,11 @@ import Screen1 from "./Screens/Screen1";
 import Screen2 from "./Screens/Screen2";
 import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+// const Tab = createMaterialTopTabNavigator();
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -49,6 +51,76 @@ export default function App() {
   }, []);
 
   return (
+    // <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    //   <NavigationContainer>
+    //     <Tab.Navigator
+    //       initialRouteName={"Dashboard"}
+    //       screenOptions={{
+    //         headerShown: false,
+    //         tabBarLabelStyle: {
+    //           fontSize: 12,
+    //           marginBottom: 5,
+    //         },
+    //         tabBarActiveTintColor: "#213481",
+    //         tabBarHideOnKeyboard: true,
+    //         tabBarInactiveTintColor: "#000000",
+    //         // tabBarShowLabel: false
+    //         tabBarItemStyle: { maxHeight: 100 },
+    //         tabBarStyle: { backgroundColor: "powderblue" },
+    //       }}
+    //     >
+    //       <Tab.Screen
+    //         name="Advertise"
+    //         component={Screen1}
+    //         options={{
+    //           title: "Advertise",
+    //           tabBarIcon: ({ focused }) => (
+    //             <View style={focused ? styles.activeTab : styles.inactiveTab}>
+    //               <Ionicons
+    //                 name="megaphone-outline"
+    //                 size={focused ? 30 : 23}
+    //                 color={focused ? "#213481" : "#000000"}
+    //               />
+    //             </View>
+    //           ),
+    //         }}
+    //       />
+    //       <Tab.Screen
+    //         name="Earn"
+    //         component={Screen2}
+    //         options={{
+    //           title: "Earn",
+    //           tabBarIcon: ({ focused }) => (
+    //             <View style={focused ? styles.activeTab : styles.inactiveTab}>
+    //               <Feather
+    //                 name="dollar-sign"
+    //                 size={focused ? 30 : 23}
+    //                 color={focused ? "#213481" : "#000000"}
+    //               />
+    //             </View>
+    //           ),
+    //         }}
+    //       />
+    //       <Tab.Screen
+    //         name="Dashboard"
+    //         component={Dashboard}
+    //         options={{
+    //           title: "Dashboard",
+    //           tabBarIcon: ({ focused }) => (
+    //             <View style={focused ? styles.activeTab : styles.inactiveTab}>
+    //               <FontAwesome6
+    //                 name="house"
+    //                 size={focused ? 30 : 23}
+    //                 color={focused ? "#213481" : "#000000"}
+    //               />
+    //             </View>
+    //           ),
+    //           // tabBarBadge: 3,
+    //         }}
+    //       />
+    //     </Tab.Navigator>
+    //   </NavigationContainer>
+    // </SafeAreaView>
     <SafeAreaProvider style={{ flex: 1, backgroundColor: "white" }}>
       <NavigationContainer>
         <Tab.Navigator
@@ -67,6 +139,9 @@ export default function App() {
             tabBarActiveTintColor: "#213481",
             tabBarHideOnKeyboard: true,
             tabBarInactiveTintColor: "#000000",
+            // tabBarActiveBackgroundColor: 'green',
+            // tabBarInactiveBackgroundColor: 'grey',
+            // tabBarShowLabel: false
           }}
         >
           <Tab.Screen
@@ -115,12 +190,13 @@ export default function App() {
                   />
                 </View>
               ),
-              tabBarBadge: 3,
+              // tabBarBadge: 3,
             }}
           />
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
+
     // <SafeAreaProvider style={{ flex: 1, backgroundColor: "white" }}>
     //   <NavigationContainer>
     //     <Stack.Navigator

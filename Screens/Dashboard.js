@@ -55,7 +55,8 @@ const Dashboard = ({ navigation }) => {
 
     setTimeout(() => {
       setIsLoading(false);
-      navigation.navigate("Login");
+      // navigation.navigate("Login");
+      navigation.navigate("Advertise");
       Alert.alert("LOGOUT", "Logged Out Successfully!!!");
     }, 2000);
   };
