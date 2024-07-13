@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
@@ -13,10 +14,12 @@ import Screen2 from "./Screens/Screen2";
 import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
 // const Tab = createMaterialTopTabNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -51,6 +54,87 @@ export default function App() {
   }, []);
 
   return (
+    // drawer
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <NavigationContainer>
+        <Drawer.Navigator
+          initialRouteName={"Dashboard"}
+          screenOptions={{
+            drawerPosition: "left",
+            drawerType: "front",
+            swipeEdgeWidth: 100,
+            drawerHideStatusBarOnOpen: false,
+            overlayColor: "#00000090",
+            drawerStyle: {
+              backgroundColor: "#e6e6e6",
+              width: 250,
+            },
+            headerShown: true,
+            swipeEnabled: true,
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: "#00800f",
+            },
+            headerTintColor: "#ffffff",
+            headerTitleStyle: {
+              fontSize: 25,
+              fontWeight: "bold",
+            },
+          }}
+        >
+          <Drawer.Screen
+            name="Advertise"
+            component={Screen1}
+            options={{
+              title: "Advertise",
+              drawerIcon: ({ focused }) => (
+                // <View style={focused ? styles.activeTab : styles.inactiveTab}>
+                <Ionicons
+                  name="megaphone-outline"
+                  size={focused ? 30 : 23}
+                  color={focused ? "#213481" : "#000000"}
+                />
+                // </View>
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="Earn"
+            component={Screen2}
+            options={{
+              title: "Earn",
+              drawerIcon: ({ focused }) => (
+                // <View style={focused ? styles.activeTab : styles.inactiveTab}>
+                <Feather
+                  name="dollar-sign"
+                  size={focused ? 30 : 23}
+                  color={focused ? "#213481" : "#000000"}
+                />
+                // </View>
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="Dashboard"
+            component={Dashboard}
+            options={{
+              title: "Dashboard",
+              drawerIcon: ({ focused }) => (
+                // <View style={focused ? styles.activeTab : styles.inactiveTab}>
+                <FontAwesome6
+                  name="house"
+                  size={focused ? 30 : 23}
+                  color={focused ? "#213481" : "#000000"}
+                />
+                // </View>
+              ),
+            }}
+          />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
+
+    // top tab
     // <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
     //   <NavigationContainer>
     //     <Tab.Navigator
@@ -121,82 +205,85 @@ export default function App() {
     //     </Tab.Navigator>
     //   </NavigationContainer>
     // </SafeAreaView>
-    <SafeAreaProvider style={{ flex: 1, backgroundColor: "white" }}>
-      <NavigationContainer>
-        <Tab.Navigator
-          initialRouteName={"Dashboard"}
-          screenOptions={{
-            headerShown: false,
-            tabBarLabelStyle: {
-              fontSize: 12,
-              marginBottom: 5,
-            },
-            tabBarStyle: {
-              backgroundColor: "#f8f8f8",
-              alignItems: "center",
-              height: 68,
-            },
-            tabBarActiveTintColor: "#213481",
-            tabBarHideOnKeyboard: true,
-            tabBarInactiveTintColor: "#000000",
-            // tabBarActiveBackgroundColor: 'green',
-            // tabBarInactiveBackgroundColor: 'grey',
-            // tabBarShowLabel: false
-          }}
-        >
-          <Tab.Screen
-            name="Advertise"
-            component={Screen1}
-            options={{
-              title: "Advertise",
-              tabBarIcon: ({ focused }) => (
-                <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                  <Ionicons
-                    name="megaphone-outline"
-                    size={focused ? 30 : 23}
-                    color={focused ? "#213481" : "#000000"}
-                  />
-                </View>
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Earn"
-            component={Screen2}
-            options={{
-              title: "Earn",
-              tabBarIcon: ({ focused }) => (
-                <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                  <Feather
-                    name="dollar-sign"
-                    size={focused ? 30 : 23}
-                    color={focused ? "#213481" : "#000000"}
-                  />
-                </View>
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Dashboard"
-            component={Dashboard}
-            options={{
-              title: "Dashboard",
-              tabBarIcon: ({ focused }) => (
-                <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                  <FontAwesome6
-                    name="house"
-                    size={focused ? 30 : 23}
-                    color={focused ? "#213481" : "#000000"}
-                  />
-                </View>
-              ),
-              // tabBarBadge: 3,
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </SafeAreaProvider>
 
+    // bottom tab
+    // <SafeAreaProvider style={{ flex: 1, backgroundColor: "white" }}>
+    //   <NavigationContainer>
+    //     <Tab.Navigator
+    //       initialRouteName={"Dashboard"}
+    //       screenOptions={{
+    //         headerShown: false,
+    //         tabBarLabelStyle: {
+    //           fontSize: 12,
+    //           marginBottom: 5,
+    //         },
+    //         tabBarStyle: {
+    //           backgroundColor: "#f8f8f8",
+    //           alignItems: "center",
+    //           height: 68,
+    //         },
+    //         tabBarActiveTintColor: "#213481",
+    //         tabBarHideOnKeyboard: true,
+    //         tabBarInactiveTintColor: "#000000",
+    //         // tabBarActiveBackgroundColor: 'green',
+    //         // tabBarInactiveBackgroundColor: 'grey',
+    //         // tabBarShowLabel: false
+    //       }}
+    //     >
+    //       <Tab.Screen
+    //         name="Advertise"
+    //         component={Screen1}
+    //         options={{
+    //           title: "Advertise",
+    //           tabBarIcon: ({ focused }) => (
+    //             <View style={focused ? styles.activeTab : styles.inactiveTab}>
+    //               <Ionicons
+    //                 name="megaphone-outline"
+    //                 size={focused ? 30 : 23}
+    //                 color={focused ? "#213481" : "#000000"}
+    //               />
+    //             </View>
+    //           ),
+    //         }}
+    //       />
+    //       <Tab.Screen
+    //         name="Earn"
+    //         component={Screen2}
+    //         options={{
+    //           title: "Earn",
+    //           tabBarIcon: ({ focused }) => (
+    //             <View style={focused ? styles.activeTab : styles.inactiveTab}>
+    //               <Feather
+    //                 name="dollar-sign"
+    //                 size={focused ? 30 : 23}
+    //                 color={focused ? "#213481" : "#000000"}
+    //               />
+    //             </View>
+    //           ),
+    //         }}
+    //       />
+    //       <Tab.Screen
+    //         name="Dashboard"
+    //         component={Dashboard}
+    //         options={{
+    //           title: "Dashboard",
+    //           tabBarIcon: ({ focused }) => (
+    //             <View style={focused ? styles.activeTab : styles.inactiveTab}>
+    //               <FontAwesome6
+    //                 name="house"
+    //                 size={focused ? 30 : 23}
+    //                 color={focused ? "#213481" : "#000000"}
+    //               />
+    //             </View>
+    //           ),
+    //           // tabBarBadge: 3,
+    //         }}
+    //       />
+    //     </Tab.Navigator>
+    //   </NavigationContainer>
+    // </SafeAreaProvider>
+
+    // stack
     // <SafeAreaProvider style={{ flex: 1, backgroundColor: "white" }}>
     //   <NavigationContainer>
     //     <Stack.Navigator
