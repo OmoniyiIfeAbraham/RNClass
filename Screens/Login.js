@@ -89,7 +89,7 @@ const Login = ({ navigation }) => {
       // Introduce a delay of 3 seconds before setting setIsLoading to false
       setTimeout(() => {
         setIsLoading(false);
-        navigation.navigate("Dashboard");
+        navigation.navigate("BottomTabs");
         Alert.alert("SUCCESS", "Login Succesful!!!");
       }, 2000);
     }

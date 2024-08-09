@@ -15,11 +15,12 @@ import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import BottomTabNavigator from "./components/Navigators/BottomTabNavigator";
 
 const Stack = createNativeStackNavigator();
 // const Tab = createBottomTabNavigator();
 // const Tab = createMaterialTopTabNavigator();
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -54,85 +55,102 @@ export default function App() {
   }, []);
 
   return (
-    // drawer
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    // multy --- Stack and Bottom
+    <SafeAreaProvider style={{ flex: 1, backgroundColor: "white" }}>
       <NavigationContainer>
-        <Drawer.Navigator
-          initialRouteName={"Dashboard"}
-          screenOptions={{
-            drawerPosition: "left",
-            drawerType: "front",
-            swipeEdgeWidth: 100,
-            drawerHideStatusBarOnOpen: false,
-            overlayColor: "#00000090",
-            drawerStyle: {
-              backgroundColor: "#e6e6e6",
-              width: 250,
-            },
-            headerShown: true,
-            swipeEnabled: true,
-            headerTitleAlign: "center",
-            headerStyle: {
-              backgroundColor: "#00800f",
-            },
-            headerTintColor: "#ffffff",
-            headerTitleStyle: {
-              fontSize: 25,
-              fontWeight: "bold",
-            },
-          }}
+        <Stack.Navigator
+          initialRouteName={token ? "Dashboard" : "Login"}
+          screenOptions={{ headerShown: false, animation: "slide_from_left" }}
         >
-          <Drawer.Screen
-            name="Advertise"
-            component={Screen1}
-            options={{
-              title: "Advertise",
-              drawerIcon: ({ focused }) => (
-                // <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                <Ionicons
-                  name="megaphone-outline"
-                  size={focused ? 30 : 23}
-                  color={focused ? "#213481" : "#000000"}
-                />
-                // </View>
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Earn"
-            component={Screen2}
-            options={{
-              title: "Earn",
-              drawerIcon: ({ focused }) => (
-                // <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                <Feather
-                  name="dollar-sign"
-                  size={focused ? 30 : 23}
-                  color={focused ? "#213481" : "#000000"}
-                />
-                // </View>
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Dashboard"
-            component={Dashboard}
-            options={{
-              title: "Dashboard",
-              drawerIcon: ({ focused }) => (
-                // <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                <FontAwesome6
-                  name="house"
-                  size={focused ? 30 : 23}
-                  color={focused ? "#213481" : "#000000"}
-                />
-                // </View>
-              ),
-            }}
-          />
-        </Drawer.Navigator>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
+          {/* <Stack.Screen name="Dashboard" component={Dashboard} /> */}
+          <Stack.Screen name="BottomTabs" component={BottomTabNavigator} />
+        </Stack.Navigator>
       </NavigationContainer>
-    </SafeAreaView>
+    </SafeAreaProvider>
+
+
+
+    // drawer
+    // <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    //   <NavigationContainer>
+    //     <Drawer.Navigator
+    //       initialRouteName={"Dashboard"}
+    //       screenOptions={{
+    //         drawerPosition: "left",
+    //         drawerType: "front",
+    //         swipeEdgeWidth: 100,
+    //         drawerHideStatusBarOnOpen: false,
+    //         overlayColor: "#00000090",
+    //         drawerStyle: {
+    //           backgroundColor: "#e6e6e6",
+    //           width: 250,
+    //         },
+    //         headerShown: true,
+    //         swipeEnabled: true,
+    //         headerTitleAlign: "center",
+    //         headerStyle: {
+    //           backgroundColor: "#00800f",
+    //         },
+    //         headerTintColor: "#ffffff",
+    //         headerTitleStyle: {
+    //           fontSize: 25,
+    //           fontWeight: "bold",
+    //         },
+    //       }}
+    //     >
+    //       <Drawer.Screen
+    //         name="Advertise"
+    //         component={Screen1}
+    //         options={{
+    //           title: "Advertise",
+    //           drawerIcon: ({ focused }) => (
+    //             // <View style={focused ? styles.activeTab : styles.inactiveTab}>
+    //             <Ionicons
+    //               name="megaphone-outline"
+    //               size={focused ? 30 : 23}
+    //               color={focused ? "#213481" : "#000000"}
+    //             />
+    //             // </View>
+    //           ),
+    //         }}
+    //       />
+    //       <Drawer.Screen
+    //         name="Earn"
+    //         component={Screen2}
+    //         options={{
+    //           title: "Earn",
+    //           drawerIcon: ({ focused }) => (
+    //             // <View style={focused ? styles.activeTab : styles.inactiveTab}>
+    //             <Feather
+    //               name="dollar-sign"
+    //               size={focused ? 30 : 23}
+    //               color={focused ? "#213481" : "#000000"}
+    //             />
+    //             // </View>
+    //           ),
+    //         }}
+    //       />
+    //       <Drawer.Screen
+    //         name="Dashboard"
+    //         component={Dashboard}
+    //         options={{
+    //           title: "Dashboard",
+    //           drawerIcon: ({ focused }) => (
+    //             // <View style={focused ? styles.activeTab : styles.inactiveTab}>
+    //             <FontAwesome6
+    //               name="house"
+    //               size={focused ? 30 : 23}
+    //               color={focused ? "#213481" : "#000000"}
+    //             />
+    //             // </View>
+    //           ),
+    //         }}
+    //       />
+    //     </Drawer.Navigator>
+    //   </NavigationContainer>
+    // </SafeAreaView>
 
     // top tab
     // <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
